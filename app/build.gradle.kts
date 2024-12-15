@@ -13,6 +13,10 @@ android {
         enable = true
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.tugasroom"
         minSdk = 24

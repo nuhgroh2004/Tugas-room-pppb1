@@ -1,13 +1,11 @@
 package com.example.tugasroom.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.tugasroom.R
 import com.example.tugasroom.database.Note
 import com.example.tugasroom.database.NoteDao
 import com.example.tugasroom.database.NoteRoomDatabase
@@ -41,24 +39,15 @@ class MainActivity : AppCompatActivity() {
                 )
                 setEmptyField()
             })
-            btnUpdate.setOnClickListener {
-                update(
-                    Note(
-                        id = updateId,
-                        title = edtTitle.text.toString(),
-                        description = edtDesc.text.toString(),
-                        date = edtDate.text.toString()
-                    )
-                )
-                updateId = 0
-                setEmptyField()
-            }
             listView.setOnItemClickListener { adapterView, _, i, _ ->
                 val item = adapterView.adapter.getItem(i) as Note
-                updateId = item.id
-                edtTitle.setText(item.title)
-                edtDesc.setText(item.description)
-                edtDate.setText(item.date)
+                val intent = Intent(this@MainActivity, UpdateActivity::class.java).apply {
+                    putExtra("NOTE_ID", item.id)
+                    putExtra("NOTE_TITLE", item.title)
+                    putExtra("NOTE_DESC", item.description)
+                    putExtra("NOTE_DATE", item.date)
+                }
+                startActivity(intent)
             }
             listView.onItemLongClickListener =
                 AdapterView.OnItemLongClickListener { adapterView, _, i, _ ->
